@@ -55,7 +55,6 @@ body {
     font-family: @font-base-stack;
     font-weight: @font-base-weight;
     color: @text-color;
-    background: @body-bg;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
 }
@@ -192,7 +191,6 @@ blockquote {
 
 @media screen and(min-width: @tabletViewportWidth) {
     .content-main {
-        .box-shadow(0 0 4px 1px @border-color);
         .unitize(min-height, 750);
     }
 
@@ -210,6 +208,6 @@ blockquote {
     }
     
     .content-main--inner {
-        .unitize-padding(0, 50, 50, 50);
+        .unitize-padding(0, 0, 0, 0);
     }
 }
