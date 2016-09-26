@@ -1,112 +1,124 @@
-Vagrant Shopware Box
-====================
+# Shopware 5
 
-## Installation
+[![Build Status](https://travis-ci.org/shopware/shopware.svg?branch=5.2)](https://travis-ci.org/shopware/shopware)
+[![Crowdin](https://d322cqt584bo4o.cloudfront.net/shopware/localized.svg)](https://crowdin.com/project/shopware)
 
-Virtualbox and Vagrant (min. Version 1.8) have to be installed on your local machine:
+- **License**: Dual license AGPL v3 / Proprietary
+- **Github Repository**: <https://github.com/shopware/shopware>
+- **Issue Tracker**: <https://issues.shopware.com>
 
- - [Virtualbox](https://www.virtualbox.org/wiki/Downloads)
- - [Vagrant](https://www.vagrantup.com/downloads)
+## Overview
 
-### Vagrant installation for Debian / Ubuntu
- 
-    $ wget https://releases.hashicorp.com/vagrant/1.8.5/vagrant_1.8.5_x86_64.deb
-    $ sudo dpkg -i vagrant_1.8.5_x86_64.deb
-    
-## Usage
+![Shopware 5 collage](http://cdn.shopware.de/github/readme_screenshot.png)
 
-Clone the repository to your local machine.
+Shopware 5 is the next generation of open source e-commerce software made in Germany. Based on bleeding edge technologies like `Symfony 2`, `Doctrine 2` & `Zend Framework` Shopware comes as the perfect platform for your next e-commerce project.
+Furthermore Shopware 5 provides an event-driven plugin system and an advanced hook system, giving you the ability to customize every part of the platform.
 
-    $ git clone https://github.com/shopwareLabs/shopware-vagrant
-    $ cd shopware-vagrant
+Visit the forum at <http://forum.shopware.com/>
 
-Boot up your vagrant virtual machine:
+### Shopware Server Requirements
 
-    $ vagrant up
+- PHP 5.6.4 or above
+- [Apache 2.2 or 2.4](https://httpd.apache.org/)
+- Apache's `mod_rewrite` module
+- MySQL 5.5.0 or above
 
-The first boot may take a while, so feel free to get a cup of coffee.
+#### Required PHP extensions:
 
-Your machine will be available at [http://192.168.33.10/](http://192.168.33.10/)
-All required tools like the LAMP stack are already installed.
+-   <a href="http://php.net/manual/en/book.ctype.php" target="_blank">ctype</a>
+-   <a href="http://php.net/manual/en/book.curl.php" target="_blank">curl</a>
+-   <a href="http://php.net/manual/en/book.dom.php" target="_blank">dom</a>
+-   <a href="http://php.net/manual/en/book.hash.php" target="_blank">hash</a>
+-   <a href="http://php.net/manual/en/book.iconv.php" target="_blank">iconv</a>
+-   <a href="http://php.net/manual/en/book.image.php" target="_blank">gd</a> (with freetype and libjpeg)
+-   <a href="http://php.net/manual/en/book.json.php" target="_blank">json</a>
+-   <a href="http://php.net/manual/en/book.mbstring.php" target="_blank">mbstring</a>
+-   <a href="http://php.net/manual/en/book.openssl.php" target="_blank">OpenSSL</a>
+-   <a href="http://php.net/manual/en/book.session.php" target="_blank">session</a>
+-   <a href="http://php.net/manual/en/book.simplexml.php" target="_blank">SimpleXML</a>
+-   <a href="http://php.net/manual/en/book.xml.php" target="_blank">xml</a>
+-   <a href="http://php.net/manual/en/book.zip.php" target="_blank">zip</a>
+-   <a href="http://php.net/manual/en/book.zlib.php" target="_blank">zlib</a>
+-   <a href="http://php.net/manual/en/ref.pdo-mysql.php" target="_blank">PDO/MySQL</a>
 
-- Adminer (DB-Administration): [http://192.168.33.10/adminer.php](http://192.168.33.10/adminer.php)
-- MySQL user: `root`, password: `shopware`
+### Installation via Git
 
-To SSH into the created VM:
+Follow the instruction below if you want to install Shopware 5 using Git.
 
-    $ vagrant ssh
+1.) Clone the git repository to the desired location using:
 
-If you use Putty the ssh configuration can be obtained via:
+    git clone https://github.com/shopware/shopware.git
 
-    $ vagrant ssh-config
+In case you wish to contribute to Shopware, fork the `5.2` branch rather than cloning it, and create a pull request via Github. For further information please read the section "Get involved" of this document.
 
-To reprovision your machine:
+2.) Set the correct directory permissions:
 
-    $ vagrant provision
+    chmod -R 755 var
+    chmod -R 755 web
+    chmod -R 755 files
+    chmod -R 755 media
+    chmod -R 755 engine/Shopware/Plugins/Community
 
-### Troubleshooting
+Depending on your server configuration, it might be necessary to set whole write permissions (777) to the files and folders above.
+You can also start testing with lower permissions due to security reasons (644 for example) as long as your php process can write to those files.
 
-- Error message "The 'ansible_local' provisioner could not be found.":
+3.) An [Ant](http://ant.apache.org/) Buildfile is used to set up the configuration and database connection:
 
-Make sure vagrant is at least at version 1.8:
+    cd build/
+    ant configure
+    ant build-unit
 
-    $ vagrant -v
+4.) Download the test images and extract them:
 
-## Change PHP Version
+Go to the checkout directory and download the test images:
 
-The following PHP Versions are installed by default:
+	wget -O test_images.zip http://releases.s3.shopware.com/test_images.zip
 
- - PHP 5.6
- - PHP 7.0
- - PHP 7.1 (RC)
+Unzip the files to the checkout directory:
 
-Call one of the following commands to change the PHP Version:
- 
-    $ changephp_5.6
-    $ changephp_7.0
-    $ changephp_7.1
+	unzip test_images.zip
 
-This will change the PHP Version used by the Apache webserver as well as the Version of the `php` command.
+You can now access your shop
 
-You can also call the PHP versions directly using their full path
+# Backend
 
-    $ /usr/bin/php5.6 -V
-    $ /usr/bin/php7.0 -v
-    $ /usr/bin/php7.1 -v
+The backend is located at `/backend` example `http://your.shop.com/backend`.
+Backend Login: demo/demo
 
-## Installing Shopware
+The test_images.zip file includes thumbnails for the new responsive theme and the old deprecated template.
 
-SSH first into your VM:
+If you want to have full featured demo data, you should download the respective demo data plugin in the First Run Wizard or in the Plugin Manager.
 
-    $ vagrant ssh
+# Get involved
 
-Call the `install_shopware` script:
+Shopware is available under dual license (AGPL v3 and proprietary license). If you want to contribute code (features or bugfixes), you have to create a pull request and include valid license information. You can either contribute your code under New BSD or MIT license.
 
-    $ install_shopware
-    
-This will download the latest git version of shopware and install it into `/home/vagrant/www/shopware`.
+If you want to contribute to the backend part of Shopware, and your changes affect or are based on ExtJS code, they must be licensed under GPL V3, as per license requirements from Sencha Inc.
 
-Download test images:
+If you are not sure which license to use, or want more details about available licensing or the contribution agreements we offer, you can contact us at <contact@shopware.com>.
 
-    $ cd home/vagrant/www/shopware
-    $ wget -O test_images.zip http://releases.s3.shopware.com/test_images.zip
-    $ unzip test_images.zip
+For more information about contributing to Shopware, please see [CONTRIBUTING.md](CONTRIBUTING.md).
 
-Configure your online store in a web browser with the credentials demo/demo:
 
-- Backend: [http://192.168.33.10/shopware/backend/](http://192.168.33.10/shopware/backend/)
+### How to report bugs / request features?
 
-You can then access your storefront at:
+We've always had a sympathetic ear for our community, so please feel free to submit tickets with bug reports or feature requests. In order to have a single issue tracking tool, we've decided to close the GitHub issue panel in favor of our Jira issue tracker, which is directly connected to our development division.
 
-- Front-end: [http://192.168.33.10/shopware/](http://192.168.33.10/shopware/)
+* [Shopware Jira ticket submit form](https://issues.shopware.com)
 
-## Notes for Arch Linux users
+# Copying / License
 
-    $ sudo pacman -S virtualbox ansible net-tools nfs-utils
-    $ sudo modprobe -a vboxdrv vboxnetadp vboxnetflt
-    $ sudo systemctl start nfs-server
+Shopware is distributed under a dual license (AGPL v3 and proprietary license). You can find the whole license text in the `license.txt` file.
 
-## License
+# Changelog
 
-The MIT License (MIT). Please see [License File](LICENSE) for more information.
-# shopware
+The changelog and all available commits are located under <https://github.com/shopware/shopware/commits/5.2>.
+
+## Further reading
+
+* [Shopware AG](http://www.shopware.com) - Homepage of shopware AG
+* [Shopware Developer Documentation](https://devdocs.shopware.com/)
+* [Shopware Community](http://community.shopware.com/) - Shopware Community
+* [Shopware Forum](http://forum.shopware.com) - Community forum
+* [Shopware Marketplace](http://store.shopware.com) - Shopware Store
+* [Shopware on Crowdin](https://crowdin.com/project/shopware) - Crowdin (Translations)

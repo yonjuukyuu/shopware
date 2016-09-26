@@ -2,7 +2,7 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="ea8fc77f-4640-4bf3-8d5c-bb8c29476871" name="theme-shopware" url="http://192.168.33.10/shopware">
+      <webServer id="ea8fc77f-4640-4bf3-8d5c-bb8c29476871" name="theme-shopware (project level)" url="http://192.168.33.10/shopware">
         <fileTransfer host="192.168.33.10" port="22" rootFolder="/home/vagrant/www/shopware" accessType="SFTP" username="vagrant">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" />
